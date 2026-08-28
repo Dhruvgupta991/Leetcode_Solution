@@ -1,23 +1,16 @@
 class Solution {
 
-    int find(int[] a) {
-        int maxc = -1;
-
-        for (int i = 0; i < 256; i++) {
-            maxc = Math.max(maxc, a[i]);
-        }
-
-        return maxc;
-    }
-
     public int characterReplacement(String s, int k) {
 
+        int n = s.length();
         int[] f = new int[256];
 
         int low = 0;
-        int res = 0;
+        int high = 0;
 
-        for (int high = 0; high < s.length(); high++) {
+        int res = Integer.MIN_VALUE;
+
+        for (high = 0; high < n; high++) {
 
             f[s.charAt(high)]++;
 
@@ -30,11 +23,13 @@ class Solution {
             while (diff > k) {
 
                 f[s.charAt(low)]--;
+
                 low++;
 
                 maxcnt = find(f);
 
                 len = high - low + 1;
+
                 diff = len - maxcnt;
             }
 
@@ -42,5 +37,16 @@ class Solution {
         }
 
         return res;
+    }
+
+    public int find(int[] f) {
+
+        int max = 0;
+
+        for (int i = 0; i < f.length; i++) {
+            max = Math.max(max, f[i]);
+        }
+
+        return max;
     }
 }
